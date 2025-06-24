@@ -1,4 +1,4 @@
-package com.drm.to.ssy.digitalletter
+package com.drm.to.ssy.digitalletter.ui.boot
 
 import android.graphics.Color
 import android.os.Bundle
@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.drm.to.ssy.digitalletter.ui.boot.BootScreen
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
 
 class BootActivity : ComponentActivity() {

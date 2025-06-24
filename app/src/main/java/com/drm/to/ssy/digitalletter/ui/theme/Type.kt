@@ -32,3 +32,8 @@ val Typography = Typography(
     )
     */
 )
+
+val FontRegular = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+)

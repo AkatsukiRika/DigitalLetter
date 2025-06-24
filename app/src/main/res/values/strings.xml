@@ -10,9 +10,9 @@
     <string name="boot_log_7">正在加载测试版本Ver 0.9.8资源文件 %s</string>
     <string name="boot_log_8">正在加载内测版本Ver 0.9.9资源文件 %s</string>
     <string name="boot_log_9">正在加载Merge Request相关资源 %s</string>
-    <string name="boot_log_10">MIDI引擎初始化中... %s</string>
-    <string name="boot_log_11">情感引擎初始化中... %s</string>
-    <string name="boot_log_12">UI引擎初始化中... %s</string>
+    <string name="boot_log_10">MIDI引擎初始化中 %s</string>
+    <string name="boot_log_11">情感引擎初始化中 %s</string>
+    <string name="boot_log_12">UI引擎初始化中 %s</string>
     <string name="boot_log_13">初始化完毕！</string>
     <string name="boot_log_14">Activity跳转准备 [还有%s秒...]</string>
 
