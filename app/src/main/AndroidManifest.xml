@@ -26,6 +26,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.intro.IntroActivity"
+            android:screenOrientation="landscape" />
+
         <activity android:name=".MemoryOnCreateActivity" />
 
         <activity android:name=".MemoryOnStartActivity" />

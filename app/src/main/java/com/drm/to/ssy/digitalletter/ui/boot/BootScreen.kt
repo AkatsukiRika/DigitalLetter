@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,8 +14,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.drm.to.ssy.digitalletter.R
@@ -25,7 +28,7 @@ import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
 import kotlinx.coroutines.delay
 
 @Composable
-fun BootScreen() {
+fun BootScreen(onFinish: () -> Unit) {
     val context = LocalContext.current
     val bootLogList = remember {
         listOf(
@@ -72,18 +75,39 @@ fun BootScreen() {
 
                 8, 9, 10, 11, 12 -> {
                     if (currentIndex == index) {
-                        bootLogList[index].format("...")
+                        val face = when (currentIndex) {
+                            8 -> "o(≧v≦)o"
+                            9 -> "(///▽///)"
+                            10 -> "( ; _ ; )"
+                            11 -> "♪(´ε｀ )"
+                            else -> "‧₊ ꒰ა ✞ ໒꒱˖ ⊹"
+                        }
+
+                        when (currentSubIndex) {
+                            0 -> bootLogList[index].format("...")
+                            1 -> bootLogList[index].format(face)
+                            else -> bootLogList[index].format("Done!")
+                        }
                     } else {
                         bootLogList[index].format("Done!")
                     }
                 }
 
                 14 -> {
-                    bootLogList[index].format(3 - currentSubIndex)
+                    if (currentIndex == index) {
+                        bootLogList[index].format(3 - currentSubIndex)
+                    } else {
+                        bootLogList[index].format(0)
+                    }
                 }
 
                 else -> {
-                    bootLogList[index]
+                    if (index in bootLogList.indices) {
+                        bootLogList[index]
+                    } else {
+                        onFinish()
+                        ""
+                    }
                 }
             }
             newLog.appendLine(newLine)
@@ -92,40 +116,46 @@ fun BootScreen() {
     }
 
     LaunchedEffect(Unit) {
-        while (currentIndex < bootLogList.lastIndex) {
+        while (currentIndex <= bootLogList.lastIndex) {
             delay(1000)
-            Log.d("BootScreen", "currentIndex=$currentIndex, currentSubIndex=$currentSubIndex")
             when (currentIndex) {
                 6, 7 -> {
                     while (currentSubIndex + 1 <= 6) {
                         currentSubIndex++
+                        Log.d("BootScreen", "currentSubIndex: $currentSubIndex")
                         delay(1000)
                     }
                     currentIndex++
                     currentSubIndex = 0
+                    Log.d("BootScreen", "currentIndex: $currentIndex, currentSubIndex: $currentSubIndex")
                 }
 
                 8, 9, 10, 11, 12 -> {
                     while (currentSubIndex + 1 <= 2) {
                         currentSubIndex++
+                        Log.d("BootScreen", "currentSubIndex: $currentSubIndex")
                         delay(1000)
                     }
                     currentIndex++
                     currentSubIndex = 0
+                    Log.d("BootScreen", "currentIndex: $currentIndex, currentSubIndex: $currentSubIndex")
                 }
 
                 14 -> {
                     while (currentSubIndex + 1 <= 3) {
                         currentSubIndex++
+                        Log.d("BootScreen", "currentSubIndex: $currentSubIndex")
                         delay(1000)
                     }
                     currentIndex++
                     currentSubIndex = 0
+                    Log.d("BootScreen", "currentIndex: $currentIndex, currentSubIndex: $currentSubIndex")
                 }
 
                 else -> {
                     currentIndex++
                     currentSubIndex = 0
+                    Log.d("BootScreen", "currentIndex: $currentIndex, currentSubIndex: $currentSubIndex")
                 }
             }
         }
@@ -135,6 +165,15 @@ fun BootScreen() {
         .fillMaxSize()
         .statusBarsPadding()
     ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_heart),
+            contentDescription = null,
+            tint = ColorBrand.copy(alpha = 0.25f),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxSize(fraction = 0.8f)
+        )
+
         Text(
             text = currentLog,
             style = FontRegular.copy(color = ColorBrand, fontSize = 16.sp),
