@@ -1,0 +1,39 @@
+package com.drm.to.ssy.digitalletter.ui.create
+
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+
+class MemoryOnCreateActivity : ComponentActivity() {
+    companion object {
+        fun startMe(context: Context) {
+            val intent = Intent(context, MemoryOnCreateActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
+
+    /**
+     * 2025年5月4日 18:00~20:00
+     * 这是我们的第0次约会
+     * 就像Activity页面在onCreate()诞生一样，我们的故事，就从这里开始初始化。
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
+        )
+        setContent {
+            DigitalLetterTheme {
+
+            }
+        }
+    }
+}
+

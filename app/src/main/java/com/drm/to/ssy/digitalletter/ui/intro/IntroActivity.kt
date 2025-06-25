@@ -8,6 +8,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.drm.to.ssy.digitalletter.ui.create.MemoryOnCreateActivity
+import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
 
 class IntroActivity : ComponentActivity() {
     companion object {
@@ -23,6 +25,12 @@ class IntroActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
-        setContent {}
+        setContent {
+            DigitalLetterTheme {
+                IntroScreen(onContinue = {
+                    MemoryOnCreateActivity.startMe(this)
+                })
+            }
+        }
     }
 }

@@ -37,3 +37,8 @@ val FontRegular = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
 )
+
+val FontBold = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+)

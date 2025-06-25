@@ -16,6 +16,8 @@
     <string name="boot_log_13">初始化完毕！</string>
     <string name="boot_log_14">Activity跳转准备 [还有%s秒...]</string>
 
+    <string name="text_intro_button">点击开启回忆</string>
+
     <string name="character_0_state_0">主人</string>
     <string name="character_0_state_1">卷卷</string>
     <string name="character_0_state_2">小润</string>
