@@ -133,7 +133,7 @@ fun getCmdList097(context: Context): List<IEngineCmd> {
             text = context.getString(R.string.ver_097_c_09)
         },
         MusicChangeCmd().apply {
-            musicRes = R.raw.ver_097_bga_1
+            musicRes = R.raw.ver_097_bgm_1
         },
         DialogCmd().apply {
             text = context.getString(R.string.ver_097_c_10)

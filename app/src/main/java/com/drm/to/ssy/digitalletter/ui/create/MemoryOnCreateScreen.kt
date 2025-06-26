@@ -1,16 +1,25 @@
 package com.drm.to.ssy.digitalletter.ui.create
 
+import androidx.annotation.OptIn
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
@@ -18,16 +27,31 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
+import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import com.drm.to.ssy.digitalletter.R
+import com.drm.to.ssy.digitalletter.engine.Engine
+import com.drm.to.ssy.digitalletter.engine.getCmdList097
 import com.drm.to.ssy.digitalletter.ui.theme.ColorYellow
+import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
 
 @Composable
 fun MemoryOnCreateScreen() {
     var maskAlpha by remember { mutableFloatStateOf(1f) }
 
     Box(modifier = Modifier.fillMaxSize()) {
+        MainLayout(maskAlpha)
+
         IntroMaskLayout(maskAlpha)
     }
 
@@ -38,6 +62,116 @@ fun MemoryOnCreateScreen() {
             animationSpec = tween(durationMillis = 2000, easing = LinearEasing, delayMillis = 1000),
         ) { value, _ ->
             maskAlpha = value
+        }
+    }
+}
+
+@OptIn(UnstableApi::class)
+@Composable
+private fun MainLayout(maskAlpha: Float) {
+    val context = LocalContext.current
+    val engine = remember {
+        Engine(getCmdList097(context))
+    }
+    val videoPlayer = remember {
+        ExoPlayer.Builder(context).build().apply {
+            repeatMode = ExoPlayer.REPEAT_MODE_ONE
+        }
+    }
+    val audioPlayer = remember {
+        ExoPlayer.Builder(context).build().apply {
+            repeatMode = ExoPlayer.REPEAT_MODE_ONE
+        }
+    }
+    val currentMovieRes = engine.currentMovieRes.collectAsState(initial = 0).value
+    val currentMusicRes = engine.currentMusicRes.collectAsState(initial = 0).value
+    val currentSpeaker = engine.currentSpeaker.collectAsState(initial = "").value
+    val currentText = engine.currentText.collectAsState(initial = "").value
+
+    DisposableEffect(Unit) {
+        onDispose {
+            audioPlayer.release()
+        }
+    }
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .clickable {
+            if (maskAlpha == 0f) {
+                engine.goNext()
+            }
+        }
+    ) {
+        AndroidView(
+            factory = { ctx ->
+                PlayerView(ctx).apply {
+                    player = videoPlayer
+                    useController = false
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                }
+            }
+        )
+
+        Column(modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .padding(bottom = 32.dp)
+            .fillMaxWidth(fraction = 0.8f)
+        ) {
+            if (currentSpeaker != null) {
+                Box(modifier = Modifier
+                    .width(128.dp)
+                    .height(44.dp)
+                    .background(Color.Black.copy(alpha = 0.7f))
+                ) {
+                    Text(
+                        text = currentSpeaker,
+                        style = FontRegular.copy(color = Color.White, fontSize = 16.sp),
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(156.dp)
+                .background(Color.Black.copy(alpha = 0.7f))
+            ) {
+                Text(
+                    text = currentText,
+                    style = FontRegular.copy(color = Color.White, fontSize = 16.sp),
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+
+    LaunchedEffect(maskAlpha) {
+        if (maskAlpha == 0f) {
+            engine.goNext()
+        }
+    }
+
+    LaunchedEffect(currentMovieRes) {
+        if (currentMovieRes != 0) {
+            val videoUri = "android.resource://${context.packageName}/${currentMovieRes}".toUri()
+            videoPlayer.setMediaItem(MediaItem.fromUri(videoUri))
+            videoPlayer.prepare()
+            videoPlayer.play()
+        } else {
+            videoPlayer.stop()
+        }
+    }
+
+    LaunchedEffect(currentMusicRes) {
+        if (currentMusicRes != 0) {
+            val audioUri = "android.resource://${context.packageName}/${currentMusicRes}".toUri()
+            audioPlayer.setMediaItem(MediaItem.fromUri(audioUri))
+            audioPlayer.prepare()
+            audioPlayer.play()
+        } else {
+            audioPlayer.stop()
         }
     }
 }
