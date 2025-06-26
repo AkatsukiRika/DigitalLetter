@@ -3,7 +3,7 @@ package com.drm.to.ssy.digitalletter.engine
 import android.content.Context
 import com.drm.to.ssy.digitalletter.R
 
-fun getCmdList(context: Context): List<IEngineCmd> {
+fun getCmdList097(context: Context): List<IEngineCmd> {
     return listOf(
         SceneInitCmd().apply {
             title = "Ver 0.9.7 A"
@@ -133,7 +133,7 @@ fun getCmdList(context: Context): List<IEngineCmd> {
             text = context.getString(R.string.ver_097_c_09)
         },
         MusicChangeCmd().apply {
-            musicRes = R.raw.ver_097_bgm_1
+            musicRes = R.raw.ver_097_bga_1
         },
         DialogCmd().apply {
             text = context.getString(R.string.ver_097_c_10)
@@ -150,5 +150,55 @@ fun getCmdList(context: Context): List<IEngineCmd> {
         MonologueCmd().apply {
             text = context.getString(R.string.ver_097_c_14)
         },
+
+        SceneInitCmd().apply {
+            title = "Ver 0.9.7 D"
+            movieRes = R.raw.ver_097_bga_1
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_0)
+            text = context.getString(R.string.ver_097_d_00)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_d_01)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_d_02)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_d_03)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_d_04)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_d_05)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_d_06)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_0)
+            text = context.getString(R.string.ver_097_d_07)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_d_08)
+        },
+        BgColorSetCmd().apply {
+            color = 0xFF000000.toInt()
+        },
+        MonologueCmd().apply {
+            text = context.getString(R.string.ver_097_d_09)
+        },
+        MonologueCmd().apply {
+            text = context.getString(R.string.ver_097_d_10)
+        },
+        MonologueCmd().apply {
+            text = context.getString(R.string.ver_097_d_11)
+        },
+        MonologueCmd().apply {
+            text = context.getString(R.string.ver_097_d_12)
+        }
     )
 }

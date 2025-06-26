@@ -20,3 +20,7 @@ class MonologueCmd : IEngineCmd {
 class MusicChangeCmd : IEngineCmd {
     var musicRes: Int = 0
 }
+
+class BgColorSetCmd : IEngineCmd {
+    var color: Int = 0
+}

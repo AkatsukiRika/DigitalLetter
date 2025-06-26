@@ -31,7 +31,7 @@ class MemoryOnCreateActivity : ComponentActivity() {
         )
         setContent {
             DigitalLetterTheme {
-
+                MemoryOnCreateScreen()
             }
         }
     }
