@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +14,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -27,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -121,7 +127,7 @@ private fun MainLayout(maskAlpha: Float) {
                 Box(modifier = Modifier
                     .width(128.dp)
                     .height(44.dp)
-                    .background(Color.Black.copy(alpha = 0.7f))
+                    .background(Color.Black.copy(alpha = 0.7f), shape = RoundedCornerShape(10.dp))
                 ) {
                     Text(
                         text = currentSpeaker,
@@ -137,11 +143,75 @@ private fun MainLayout(maskAlpha: Float) {
                 .fillMaxWidth()
                 .height(156.dp)
                 .background(Color.Black.copy(alpha = 0.7f))
+                .border(1.dp, color = Color.White)
             ) {
                 Text(
                     text = currentText,
                     style = FontRegular.copy(color = Color.White, fontSize = 16.sp),
                     modifier = Modifier.padding(16.dp)
+                )
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_frame_corner),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .size(32.dp)
+                        .offset(x = (-16).dp, y = (-16).dp)
+                )
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_frame_corner),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .size(32.dp)
+                        .offset(x = 16.dp, y = (-16).dp)
+                )
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_frame_corner),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .size(32.dp)
+                        .offset(x = (-16).dp, y = 16.dp)
+                )
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_frame_corner),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(32.dp)
+                        .offset(x = 16.dp, y = 16.dp)
+                )
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_frame_center),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .width(61.dp)
+                        .height(28.dp)
+                        .offset(y = (-28).dp)
+                )
+
+                Icon(
+                    painter = painterResource(R.drawable.ic_frame_center),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .width(61.dp)
+                        .height(28.dp)
+                        .offset(y = 28.dp)
+                        .rotate(180f)
                 )
             }
         }
