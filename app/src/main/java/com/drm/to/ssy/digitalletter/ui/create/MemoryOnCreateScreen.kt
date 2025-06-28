@@ -3,7 +3,9 @@ package com.drm.to.ssy.digitalletter.ui.create
 import androidx.annotation.OptIn
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,6 +41,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -51,16 +54,18 @@ import androidx.media3.ui.PlayerView
 import com.drm.to.ssy.digitalletter.R
 import com.drm.to.ssy.digitalletter.engine.Engine
 import com.drm.to.ssy.digitalletter.engine.getCmdList097
-import com.drm.to.ssy.digitalletter.ui.theme.ColorYellow
+import com.drm.to.ssy.digitalletter.ui.theme.ColorOnCreateTheme
+import com.drm.to.ssy.digitalletter.ui.theme.FontBold
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
-fun MemoryOnCreateScreen() {
+fun MemoryOnCreateScreen(onActivityJump: () -> Unit) {
     var maskAlpha by remember { mutableFloatStateOf(1f) }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        MainLayout(maskAlpha)
+        MainLayout(maskAlpha, onActivityJump)
 
         IntroMaskLayout(maskAlpha)
     }
@@ -78,7 +83,7 @@ fun MemoryOnCreateScreen() {
 
 @OptIn(UnstableApi::class)
 @Composable
-private fun MainLayout(maskAlpha: Float) {
+private fun MainLayout(maskAlpha: Float, onActivityJump: () -> Unit) {
     val context = LocalContext.current
     val engine = remember {
         Engine(getCmdList097(context))
@@ -95,26 +100,34 @@ private fun MainLayout(maskAlpha: Float) {
     }
     val currentMovieRes = engine.currentMovieRes.collectAsState(initial = 0).value
     val currentMusicRes = engine.currentMusicRes.collectAsState(initial = 0).value
+    val currentTitle = engine.currentTitle.collectAsState(initial = "").value
     val currentSpeaker = engine.currentSpeaker.collectAsState(initial = "").value
     val currentText = engine.currentText.collectAsState(initial = "").value
     var currentDisplayText by remember { mutableStateOf("") }
     var isInTextAnimation by remember { mutableStateOf(true) }
     val nextIconBlinkAlpha = remember { Animatable(1f) }
+    val titleShakeOffsetX = remember { Animatable(0f) }
 
     DisposableEffect(Unit) {
         onDispose {
+            videoPlayer.release()
             audioPlayer.release()
         }
     }
 
     Box(modifier = Modifier
         .fillMaxSize()
+        .alpha(1 - maskAlpha)
         .clickable(
             enabled = maskAlpha == 0f && !isInTextAnimation,
             interactionSource = remember { MutableInteractionSource() },
             indication = null
         ) {
-            engine.goNext()
+            if (!engine.goNext()) {
+                videoPlayer.release()
+                audioPlayer.release()
+                onActivityJump()
+            }
         }
     ) {
         AndroidView(
@@ -136,7 +149,7 @@ private fun MainLayout(maskAlpha: Float) {
                 Box(modifier = Modifier
                     .width(128.dp)
                     .height(44.dp)
-                    .background(Color.Black.copy(alpha = 0.7f), shape = RoundedCornerShape(10.dp))
+                    .background(ColorOnCreateTheme, shape = RoundedCornerShape(10.dp))
                 ) {
                     Text(
                         text = currentSpeaker,
@@ -151,7 +164,7 @@ private fun MainLayout(maskAlpha: Float) {
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .height(156.dp)
-                .background(Color.Black.copy(alpha = 0.7f))
+                .background(ColorOnCreateTheme)
                 .border(1.dp, color = Color.White)
             ) {
                 Text(
@@ -238,6 +251,21 @@ private fun MainLayout(maskAlpha: Float) {
                 }
             }
         }
+
+        Box(modifier = Modifier
+            .offset { IntOffset(titleShakeOffsetX.value.roundToInt(), 0) }
+            .align(Alignment.TopCenter)
+            .padding(top = 16.dp)
+            .width(128.dp)
+            .height(44.dp)
+            .background(ColorOnCreateTheme, shape = RoundedCornerShape(10.dp))
+        ) {
+            Text(
+                text = currentTitle,
+                style = FontBold.copy(color = Color.White, fontSize = 16.sp),
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 
     LaunchedEffect(maskAlpha) {
@@ -297,6 +325,17 @@ private fun MainLayout(maskAlpha: Float) {
             nextIconBlinkAlpha.snapTo(1f)
         }
     }
+
+    LaunchedEffect(currentTitle) {
+        // 逐渐减小的晃动幅度
+        val shakeOffsets = listOf(20f, -16f, 12f, -8f, 4f, 0f)
+        for (offset in shakeOffsets) {
+            titleShakeOffsetX.animateTo(
+                offset,
+                animationSpec = spring(stiffness = Spring.StiffnessHigh)
+            )
+        }
+    }
 }
 
 @Composable
@@ -304,7 +343,7 @@ private fun IntroMaskLayout(alpha: Float) {
     Box(modifier = Modifier
         .fillMaxSize()
         .alpha(alpha)
-        .background(ColorYellow)
+        .background(ColorOnCreateTheme)
     ) {
         Image(
             painter = painterResource(R.drawable.img_on_create_intro),

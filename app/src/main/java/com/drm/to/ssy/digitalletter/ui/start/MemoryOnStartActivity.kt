@@ -1,4 +1,4 @@
-package com.drm.to.ssy.digitalletter.ui.create
+package com.drm.to.ssy.digitalletter.ui.start
 
 import android.content.Context
 import android.content.Intent
@@ -9,22 +9,25 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.drm.to.ssy.digitalletter.ui.start.MemoryOnStartActivity
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
 
-class MemoryOnCreateActivity : ComponentActivity() {
+class MemoryOnStartActivity : ComponentActivity() {
     companion object {
         fun startMe(context: Context) {
-            val intent = Intent(context, MemoryOnCreateActivity::class.java)
+            val intent = Intent(context, MemoryOnStartActivity::class.java)
             context.startActivity(intent)
         }
     }
 
     /**
-     * 2025年5月4日 18:00~20:00
-     * 这是我们的第0次约会
-     * 就像Activity页面在onCreate()诞生一样，我们的故事，就从这里开始初始化。
+     * 2025年6月7日 15:00~23:00
+     * 这是我们的第1次约会
+     * Activity在onStart()时正在被启动，而我的感情，就像此时的Activity对用户可见一样，已经对你可见。
      */
+    override fun onStart() {
+        super.onStart()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
@@ -38,11 +41,8 @@ class MemoryOnCreateActivity : ComponentActivity() {
         })
         setContent {
             DigitalLetterTheme {
-                MemoryOnCreateScreen(onActivityJump = {
-                    MemoryOnStartActivity.startMe(this)
-                })
+
             }
         }
     }
 }
-

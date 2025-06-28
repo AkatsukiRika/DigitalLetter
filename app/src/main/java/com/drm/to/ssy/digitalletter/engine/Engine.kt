@@ -25,7 +25,13 @@ class Engine(private val cmdList: List<IEngineCmd>) {
 
     private var savedSpeaker: String? = null
 
-    fun goNext() {
+    /**
+     * @return true if there is next command, false otherwise
+     */
+    fun goNext(): Boolean {
+        if (currentIndex.value + 1 >= cmdList.size) {
+            return false
+        }
         while (currentIndex.value + 1 < cmdList.size) {
             _currentIndex.value = currentIndex.value + 1
             when (val nextCmd = cmdList[currentIndex.value]) {
@@ -96,5 +102,6 @@ class Engine(private val cmdList: List<IEngineCmd>) {
                 }
             }
         }
+        return true
     }
 }
