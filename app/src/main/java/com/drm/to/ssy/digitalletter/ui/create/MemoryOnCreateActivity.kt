@@ -9,8 +9,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.drm.to.ssy.digitalletter.R
+import com.drm.to.ssy.digitalletter.engine.getCmdList097
 import com.drm.to.ssy.digitalletter.ui.start.MemoryOnStartActivity
+import com.drm.to.ssy.digitalletter.ui.theme.ColorOnCreateTheme
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+import com.drm.to.ssy.digitalletter.widget.MemoryDialogConfig
+import com.drm.to.ssy.digitalletter.widget.MemoryDialogScreen
 
 class MemoryOnCreateActivity : ComponentActivity() {
     companion object {
@@ -38,9 +43,16 @@ class MemoryOnCreateActivity : ComponentActivity() {
         })
         setContent {
             DigitalLetterTheme {
-                MemoryOnCreateScreen(onActivityJump = {
-                    MemoryOnStartActivity.startMe(this)
-                })
+                MemoryDialogScreen(
+                    config = MemoryDialogConfig(
+                        cmdList = getCmdList097(this),
+                        themeColor = ColorOnCreateTheme,
+                        introDrawableRes = R.drawable.img_on_create_intro
+                    ),
+                    onActivityJump = {
+                        MemoryOnStartActivity.startMe(this)
+                    }
+                )
             }
         }
     }
