@@ -23,6 +23,8 @@ class Engine(private val cmdList: List<IEngineCmd>) {
     private val _currentText = MutableStateFlow("")
     val currentText: StateFlow<String> = _currentText
 
+    private var savedSpeaker: String? = null
+
     fun goNext() {
         while (currentIndex.value + 1 < cmdList.size) {
             _currentIndex.value = currentIndex.value + 1
@@ -51,10 +53,21 @@ class Engine(private val cmdList: List<IEngineCmd>) {
                     }
                 }
 
+                is MovieChangeCmd -> {
+                    Log.i("Engine", "nextCmd is MovieChangeCmd")
+                    if (nextCmd.movieRes != 0) {
+                        _currentMovieRes.value = nextCmd.movieRes
+                        Log.d("Engine", "currentMovieRes: ${currentMovieRes.value}")
+                    }
+                }
+
                 is DialogCmd -> {
                     Log.i("Engine", "nextCmd is DialogCmd")
                     if (nextCmd.speaker.isNotEmpty()) {
                         _currentSpeaker.value = nextCmd.speaker
+                    } else if (savedSpeaker.isNullOrEmpty().not()) {
+                        _currentSpeaker.value = savedSpeaker
+                        savedSpeaker = null
                     }
                     Log.d("Engine", "currentSpeaker: ${currentSpeaker.value}")
                     _currentText.value = nextCmd.text
@@ -67,6 +80,16 @@ class Engine(private val cmdList: List<IEngineCmd>) {
                     _currentSpeaker.value = null
                     Log.d("Engine", "currentSpeaker: ${currentSpeaker.value}")
                     _currentText.value = nextCmd.text
+                    Log.d("Engine", "currentText: ${currentText.value}")
+                    break
+                }
+
+                is EllipsisCmd -> {
+                    Log.i("Engine", "nextCmd is EllipsisCmd")
+                    savedSpeaker = currentSpeaker.value
+                    _currentSpeaker.value = null
+                    Log.d("Engine", "currentSpeaker: ${currentSpeaker.value}")
+                    _currentText.value = ".".repeat(nextCmd.count)
                     Log.d("Engine", "currentText: ${currentText.value}")
                     break
                 }

@@ -1,6 +1,7 @@
 package com.drm.to.ssy.digitalletter.ui.create
 
 import androidx.annotation.OptIn
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
@@ -27,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,6 +52,7 @@ import com.drm.to.ssy.digitalletter.engine.Engine
 import com.drm.to.ssy.digitalletter.engine.getCmdList097
 import com.drm.to.ssy.digitalletter.ui.theme.ColorYellow
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
+import kotlinx.coroutines.delay
 
 @Composable
 fun MemoryOnCreateScreen() {
@@ -93,6 +96,9 @@ private fun MainLayout(maskAlpha: Float) {
     val currentMusicRes = engine.currentMusicRes.collectAsState(initial = 0).value
     val currentSpeaker = engine.currentSpeaker.collectAsState(initial = "").value
     val currentText = engine.currentText.collectAsState(initial = "").value
+    var currentDisplayText by remember { mutableStateOf("") }
+    var isInTextAnimation by remember { mutableStateOf(true) }
+    val nextIconBlinkAlpha = remember { Animatable(1f) }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -102,10 +108,8 @@ private fun MainLayout(maskAlpha: Float) {
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .clickable {
-            if (maskAlpha == 0f) {
-                engine.goNext()
-            }
+        .clickable(enabled = maskAlpha == 0f && !isInTextAnimation) {
+            engine.goNext()
         }
     ) {
         AndroidView(
@@ -146,7 +150,7 @@ private fun MainLayout(maskAlpha: Float) {
                 .border(1.dp, color = Color.White)
             ) {
                 Text(
-                    text = currentText,
+                    text = currentDisplayText,
                     style = FontRegular.copy(color = Color.White, fontSize = 16.sp),
                     modifier = Modifier.padding(16.dp)
                 )
@@ -213,6 +217,20 @@ private fun MainLayout(maskAlpha: Float) {
                         .offset(y = 28.dp)
                         .rotate(180f)
                 )
+
+                if (currentText.isNotEmpty() && maskAlpha == 0f && !isInTextAnimation) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_triangle),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(end = 16.dp, bottom = 16.dp)
+                            .size(24.dp)
+                            .rotate(180f)
+                            .alpha(nextIconBlinkAlpha.value)
+                    )
+                }
             }
         }
     }
@@ -242,6 +260,36 @@ private fun MainLayout(maskAlpha: Float) {
             audioPlayer.play()
         } else {
             audioPlayer.stop()
+        }
+    }
+
+    LaunchedEffect(currentText) {
+        if (currentText.isNotEmpty()) {
+            isInTextAnimation = true
+            currentDisplayText = ""
+            for (i in currentText.indices) {
+                currentDisplayText += currentText[i]
+                delay(100)
+            }
+            isInTextAnimation = false
+        }
+    }
+
+    LaunchedEffect(currentText, maskAlpha, isInTextAnimation) {
+        // 只有在需要显示三角时才闪烁
+        if (currentText.isNotEmpty() && maskAlpha == 0f && !isInTextAnimation) {
+            while (true) {
+                nextIconBlinkAlpha.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(durationMillis = 500)
+                )
+                nextIconBlinkAlpha.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(durationMillis = 500)
+                )
+            }
+        } else {
+            nextIconBlinkAlpha.snapTo(1f)
         }
     }
 }

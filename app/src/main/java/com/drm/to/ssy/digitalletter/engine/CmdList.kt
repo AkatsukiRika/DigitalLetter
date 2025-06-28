@@ -41,6 +41,9 @@ fun getCmdList097(context: Context): List<IEngineCmd> {
             speaker = context.getString(R.string.character_1_state_0)
             text = context.getString(R.string.ver_097_a_08)
         },
+        EllipsisCmd().apply {
+            count = 6
+        },
 
         SceneInitCmd().apply {
             title = "Ver 0.9.7 B"
@@ -94,6 +97,9 @@ fun getCmdList097(context: Context): List<IEngineCmd> {
         DialogCmd().apply {
             text = context.getString(R.string.ver_097_b_13)
         },
+        EllipsisCmd().apply {
+            count = 6
+        },
 
         SceneInitCmd().apply {
             title = "Ver 0.9.7 C"
@@ -135,6 +141,15 @@ fun getCmdList097(context: Context): List<IEngineCmd> {
         MusicChangeCmd().apply {
             musicRes = R.raw.ver_097_bgm_1
         },
+        EllipsisCmd().apply {
+            count = 9
+        },
+        EllipsisCmd().apply {
+            count = 6
+        },
+        EllipsisCmd().apply {
+            count = 3
+        },
         DialogCmd().apply {
             text = context.getString(R.string.ver_097_c_10)
         },
@@ -149,6 +164,9 @@ fun getCmdList097(context: Context): List<IEngineCmd> {
         },
         MonologueCmd().apply {
             text = context.getString(R.string.ver_097_c_14)
+        },
+        EllipsisCmd().apply {
+            count = 6
         },
 
         SceneInitCmd().apply {
@@ -185,8 +203,8 @@ fun getCmdList097(context: Context): List<IEngineCmd> {
         DialogCmd().apply {
             text = context.getString(R.string.ver_097_d_08)
         },
-        BgColorSetCmd().apply {
-            color = 0xFF000000.toInt()
+        MovieChangeCmd().apply {
+            movieRes = R.raw.ver_097_bga_2
         },
         MonologueCmd().apply {
             text = context.getString(R.string.ver_097_d_09)

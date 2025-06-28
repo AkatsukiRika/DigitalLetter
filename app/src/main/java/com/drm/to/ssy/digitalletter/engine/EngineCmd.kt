@@ -17,10 +17,17 @@ class MonologueCmd : IEngineCmd {
     var text: String = ""
 }
 
+/**
+ * 用省略号做文本转场
+ */
+class EllipsisCmd : IEngineCmd {
+    var count: Int = 0
+}
+
 class MusicChangeCmd : IEngineCmd {
     var musicRes: Int = 0
 }
 
-class BgColorSetCmd : IEngineCmd {
-    var color: Int = 0
+class MovieChangeCmd : IEngineCmd {
+    var movieRes: Int = 0
 }
