@@ -65,6 +65,7 @@ class Engine(private val cmdList: List<IEngineCmd>) {
                     Log.i("Engine", "nextCmd is DialogCmd")
                     if (nextCmd.speaker.isNotEmpty()) {
                         _currentSpeaker.value = nextCmd.speaker
+                        savedSpeaker = null
                     } else if (savedSpeaker.isNullOrEmpty().not()) {
                         _currentSpeaker.value = savedSpeaker
                         savedSpeaker = null

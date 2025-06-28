@@ -217,6 +217,108 @@ fun getCmdList097(context: Context): List<IEngineCmd> {
         },
         MonologueCmd().apply {
             text = context.getString(R.string.ver_097_d_12)
+        },
+
+        SceneInitCmd().apply {
+            title = "Ver 0.9.7 E"
+            movieRes = R.raw.ver_097_bga_3
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_e_00)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_e_01)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_0)
+            text = context.getString(R.string.ver_097_e_02)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_e_03)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_e_04)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_e_05)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_0)
+            text = context.getString(R.string.ver_097_e_06)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_e_07)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_0)
+            text = context.getString(R.string.ver_097_e_08)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_e_09)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_e_10)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_e_11)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_e_12)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_0)
+            text = context.getString(R.string.ver_097_e_13)
+        },
+
+        SceneInitCmd().apply {
+            title = "Ver 0.9.7 F"
+            movieRes = R.raw.ver_097_bga_4
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_f_00)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_f_01)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_f_02)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_0)
+            text = context.getString(R.string.ver_097_f_03)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_f_04)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_f_05)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_1)
+            text = context.getString(R.string.ver_097_f_06)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_f_07)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_1)
+            text = context.getString(R.string.ver_097_f_08)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_f_09)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_1)
+            text = context.getString(R.string.ver_097_f_10)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_097_f_11)
         }
     )
 }
