@@ -13,6 +13,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,7 +63,8 @@ import kotlin.math.roundToInt
 data class MemoryDialogConfig(
     val cmdList: List<IEngineCmd>,
     val themeColor: Color,
-    val introDrawableRes: Int
+    val introDrawableRes: Int,
+    val frameDecoration: @Composable BoxScope.() -> Unit = {}
 )
 
 @Composable
@@ -182,68 +184,7 @@ private fun MainLayout(
                     modifier = Modifier.padding(16.dp)
                 )
 
-                Icon(
-                    painter = painterResource(R.drawable.ic_frame_corner),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .size(32.dp)
-                        .offset(x = (-16).dp, y = (-16).dp)
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.ic_frame_corner),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .size(32.dp)
-                        .offset(x = 16.dp, y = (-16).dp)
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.ic_frame_corner),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .size(32.dp)
-                        .offset(x = (-16).dp, y = 16.dp)
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.ic_frame_corner),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .size(32.dp)
-                        .offset(x = 16.dp, y = 16.dp)
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.ic_frame_center),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .width(61.dp)
-                        .height(28.dp)
-                        .offset(y = (-28).dp)
-                )
-
-                Icon(
-                    painter = painterResource(R.drawable.ic_frame_center),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .width(61.dp)
-                        .height(28.dp)
-                        .offset(y = 28.dp)
-                        .rotate(180f)
-                )
+                config.frameDecoration(this)
 
                 if (currentText.isNotEmpty() && maskAlpha == 0f && !isInTextAnimation) {
                     Icon(

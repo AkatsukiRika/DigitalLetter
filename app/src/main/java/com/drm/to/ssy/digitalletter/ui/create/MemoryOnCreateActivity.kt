@@ -9,6 +9,16 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.drm.to.ssy.digitalletter.R
 import com.drm.to.ssy.digitalletter.engine.getCmdList097
 import com.drm.to.ssy.digitalletter.ui.start.MemoryOnStartActivity
@@ -47,7 +57,71 @@ class MemoryOnCreateActivity : ComponentActivity() {
                     config = MemoryDialogConfig(
                         cmdList = getCmdList097(this),
                         themeColor = ColorOnCreateTheme,
-                        introDrawableRes = R.drawable.img_on_create_intro
+                        introDrawableRes = R.drawable.img_on_create_intro,
+                        frameDecoration = {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_frame_corner),
+                                contentDescription = null,
+                                tint = androidx.compose.ui.graphics.Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.TopStart)
+                                    .size(32.dp)
+                                    .offset(x = (-16).dp, y = (-16).dp)
+                            )
+
+                            Icon(
+                                painter = painterResource(R.drawable.ic_frame_corner),
+                                contentDescription = null,
+                                tint = androidx.compose.ui.graphics.Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .size(32.dp)
+                                    .offset(x = 16.dp, y = (-16).dp)
+                            )
+
+                            Icon(
+                                painter = painterResource(R.drawable.ic_frame_corner),
+                                contentDescription = null,
+                                tint = androidx.compose.ui.graphics.Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.BottomStart)
+                                    .size(32.dp)
+                                    .offset(x = (-16).dp, y = 16.dp)
+                            )
+
+                            Icon(
+                                painter = painterResource(R.drawable.ic_frame_corner),
+                                contentDescription = null,
+                                tint = androidx.compose.ui.graphics.Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .size(32.dp)
+                                    .offset(x = 16.dp, y = 16.dp)
+                            )
+
+                            Icon(
+                                painter = painterResource(R.drawable.ic_frame_center),
+                                contentDescription = null,
+                                tint = androidx.compose.ui.graphics.Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.TopCenter)
+                                    .width(61.dp)
+                                    .height(28.dp)
+                                    .offset(y = (-28).dp)
+                            )
+
+                            Icon(
+                                painter = painterResource(R.drawable.ic_frame_center),
+                                contentDescription = null,
+                                tint = androidx.compose.ui.graphics.Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .width(61.dp)
+                                    .height(28.dp)
+                                    .offset(y = 28.dp)
+                                    .rotate(180f)
+                            )
+                        }
                     ),
                     onActivityJump = {
                         MemoryOnStartActivity.startMe(this)
