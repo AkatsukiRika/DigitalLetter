@@ -55,15 +55,36 @@ dependencies {
 
 tasks.register("assembleAndInstallDebug") {
     group = "custom"
-    description = "Builds debug APK and installs it to a connected device"
+    description = "Builds debug APK, installs it, and launches a specified Activity"
 
     dependsOn("assembleDebug")
 
     doLast {
+        // APK 路径
         val apkPath = "${buildDir}/outputs/apk/debug/app-debug.apk"
+
+        // 读取 SDK 路径并构建 adb 路径
+        val sdkDir = android.sdkDirectory
+        val adbPath = File(sdkDir, "platform-tools/adb").absolutePath
+
+        // 包名和启动 Activity
+        val packageName = "com.drm.to.ssy.digitalletter"
+        val activityName = "com.drm.to.ssy.digitalletter.ui.start.MemoryOnStartActivity"
+        val componentName = "$packageName/$activityName"
+
+        // 检查 adb 是否存在
+        if (!File(adbPath).exists()) {
+            throw GradleException("adb not found at: $adbPath")
+        }
+
         println("Installing APK from: $apkPath")
         exec {
-            commandLine("${android.sdkDirectory}/platform-tools/adb", "install", "-r", apkPath)
+            commandLine(adbPath, "install", "-r", apkPath)
+        }
+
+        println("Launching activity: $componentName")
+        exec {
+            commandLine(adbPath, "shell", "am", "start", "-n", componentName)
         }
     }
 }
