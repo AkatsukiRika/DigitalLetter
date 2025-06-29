@@ -21,10 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.drm.to.ssy.digitalletter.R
 import com.drm.to.ssy.digitalletter.engine.getCmdList097
+import com.drm.to.ssy.digitalletter.model.MemoryConfig
 import com.drm.to.ssy.digitalletter.ui.start.MemoryOnStartActivity
 import com.drm.to.ssy.digitalletter.ui.theme.ColorOnCreateTheme
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
-import com.drm.to.ssy.digitalletter.widget.MemoryDialogConfig
 import com.drm.to.ssy.digitalletter.widget.MemoryDialogScreen
 
 class MemoryOnCreateActivity : ComponentActivity() {
@@ -54,7 +54,7 @@ class MemoryOnCreateActivity : ComponentActivity() {
         setContent {
             DigitalLetterTheme {
                 MemoryDialogScreen(
-                    config = MemoryDialogConfig(
+                    config = MemoryConfig(
                         cmdList = getCmdList097(this),
                         themeColor = ColorOnCreateTheme,
                         introDrawableRes = R.drawable.img_on_create_intro,

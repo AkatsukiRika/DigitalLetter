@@ -40,7 +40,9 @@
             android:screenOrientation="landscape">
         </activity>
 
-        <activity android:name=".MemoryOnResumeActivity" />
+        <activity android:name=".ui.resume.MemoryOnResumeActivity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

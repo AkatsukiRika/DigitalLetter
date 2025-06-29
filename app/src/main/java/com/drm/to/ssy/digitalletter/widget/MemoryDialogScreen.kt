@@ -7,13 +7,11 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,21 +52,14 @@ import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.drm.to.ssy.digitalletter.R
 import com.drm.to.ssy.digitalletter.engine.Engine
-import com.drm.to.ssy.digitalletter.engine.IEngineCmd
+import com.drm.to.ssy.digitalletter.model.MemoryConfig
 import com.drm.to.ssy.digitalletter.ui.theme.FontBold
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
-data class MemoryDialogConfig(
-    val cmdList: List<IEngineCmd>,
-    val themeColor: Color,
-    val introDrawableRes: Int,
-    val frameDecoration: @Composable BoxScope.() -> Unit = {}
-)
-
 @Composable
-fun MemoryDialogScreen(config: MemoryDialogConfig, onActivityJump: () -> Unit) {
+fun MemoryDialogScreen(config: MemoryConfig, onActivityJump: () -> Unit) {
     var maskAlpha by remember { mutableFloatStateOf(1f) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -92,7 +83,7 @@ fun MemoryDialogScreen(config: MemoryDialogConfig, onActivityJump: () -> Unit) {
 @Composable
 private fun MainLayout(
     maskAlpha: Float,
-    config: MemoryDialogConfig,
+    config: MemoryConfig,
     onActivityJump: () -> Unit
 ) {
     val context = LocalContext.current
@@ -285,20 +276,5 @@ private fun MainLayout(
                 animationSpec = spring(stiffness = Spring.StiffnessHigh)
             )
         }
-    }
-}
-
-@Composable
-private fun IntroMaskLayout(alpha: Float, config: MemoryDialogConfig) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .alpha(alpha)
-        .background(config.themeColor)
-    ) {
-        Image(
-            painter = painterResource(config.introDrawableRes),
-            contentDescription = null,
-            modifier = Modifier.align(Alignment.Center)
-        )
     }
 }
