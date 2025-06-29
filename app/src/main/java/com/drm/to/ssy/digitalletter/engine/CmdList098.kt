@@ -95,6 +95,54 @@ fun getCmdList098(context: Context): List<IEngineCmd> {
         },
         MonologueCmd().apply {
             text = context.getString(R.string.ver_098_b_11)
-        }
+        },
+
+        SceneInitCmd().apply {
+            title = "Ver 0.9.8 C"
+            movieRes = R.raw.ver_098_bga_2
+            musicRes = R.raw.ver_098_bgm_2
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_1)
+            text = context.getString(R.string.ver_098_c_00)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_2)
+            text = context.getString(R.string.ver_098_c_01)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_098_c_02)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_1)
+            text = context.getString(R.string.ver_098_c_03)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_2)
+            text = context.getString(R.string.ver_098_c_04)
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_1_state_1)
+            text = context.getString(R.string.ver_098_c_05)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_098_c_06)
+        },
+        EllipsisCmd().apply {
+            count = 6
+        },
+        DialogCmd().apply {
+            speaker = context.getString(R.string.character_0_state_2)
+            text = context.getString(R.string.ver_098_c_07)
+        },
+        DialogCmd().apply {
+            text = context.getString(R.string.ver_098_c_08)
+        },
+        MonologueCmd().apply {
+            text = context.getString(R.string.ver_098_c_09)
+        },
+        MonologueCmd().apply {
+            text = context.getString(R.string.ver_098_c_10)
+        },
     )
 }
