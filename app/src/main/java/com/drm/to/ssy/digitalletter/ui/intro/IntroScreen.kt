@@ -4,8 +4,12 @@ import androidx.annotation.OptIn
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +35,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
+import com.drm.to.ssy.digitalletter.ui.theme.FontRegularItalic
+import com.drm.to.ssy.digitalletter.utils.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -40,7 +45,10 @@ import kotlinx.coroutines.withContext
 
 @OptIn(UnstableApi::class)
 @Composable
-fun IntroScreen(onContinue: () -> Unit) {
+fun IntroScreen(
+    onContinue: () -> Unit,
+    onExit: () -> Unit
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val videoPlayer = remember {
@@ -73,6 +81,32 @@ fun IntroScreen(onContinue: () -> Unit) {
         }
     }
 
+    fun onButtonClick(action: () -> Unit) {
+        fadeOutJob?.cancel()
+        fadeOutJob = scope.launch {
+            val fadeDurationMs = 1000L
+            val initialVolume = audioPlayer.volume
+            val steps = 20
+            val volumeStep = initialVolume / steps
+            val delayTime = fadeDurationMs / steps
+
+            var currentVolume = initialVolume
+            for (i in 0 until steps) {
+                currentVolume -= volumeStep
+                audioPlayer.volume = currentVolume.coerceAtLeast(0f)
+                delay(delayTime)
+            }
+
+            audioPlayer.volume = 0f
+
+            withContext(Dispatchers.Main) {
+                videoPlayer.release()
+                audioPlayer.release()
+                action()
+            }
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(
             factory = { ctx ->
@@ -85,41 +119,84 @@ fun IntroScreen(onContinue: () -> Unit) {
             modifier = Modifier.fillMaxSize()
         )
 
-        Box(modifier = Modifier
-            .align(Alignment.Center)
-            .border(1.dp, color = Color.White, shape = RoundedCornerShape(20.dp))
-            .clip(RoundedCornerShape(20.dp))
-            .clickable {
-                fadeOutJob?.cancel()
-                fadeOutJob = scope.launch {
-                    val fadeDurationMs = 1000L
-                    val initialVolume = audioPlayer.volume
-                    val steps = 20
-                    val volumeStep = initialVolume / steps
-                    val delayTime = fadeDurationMs / steps
-
-                    var currentVolume = initialVolume
-                    for (i in 0 until steps) {
-                        currentVolume -= volumeStep
-                        audioPlayer.volume = currentVolume.coerceAtLeast(0f)
-                        delay(delayTime)
-                    }
-
-                    audioPlayer.volume = 0f
-
-                    withContext(Dispatchers.Main) {
-                        videoPlayer.release()
-                        audioPlayer.release()
-                        onContinue()
-                    }
+        Column(modifier = Modifier.align(Alignment.Center)) {
+            Box(modifier = Modifier
+                .border(1.dp, color = Color.White, shape = RoundedCornerShape(4.dp))
+                .clip(RoundedCornerShape(4.dp))
+                .width(158.dp)
+                .height(58.dp)
+                .clickable {
+                    onButtonClick(onContinue)
                 }
+            ) {
+                Text(
+                    text = stringResource(R.string.text_intro_button),
+                    style = FontRegularItalic.copy(color = Color.White, fontSize = 20.sp),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(vertical = 10.dp, horizontal = 20.dp)
+                )
             }
-        ) {
-            Text(
-                text = stringResource(R.string.text_intro_button),
-                style = FontRegular.copy(color = Color.White, fontSize = 16.sp),
-                modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
-            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Box(modifier = Modifier
+                .border(1.dp, color = Color.White, shape = RoundedCornerShape(4.dp))
+                .clip(RoundedCornerShape(4.dp))
+                .width(158.dp)
+                .height(58.dp)
+                .clickable {
+                    ToastUtils.showToast(context, context.getString(R.string.msg_not_unlocked))
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.text_appendix_button),
+                    style = FontRegularItalic.copy(color = Color.White, fontSize = 20.sp),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(vertical = 10.dp, horizontal = 20.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Box(modifier = Modifier
+                .border(1.dp, color = Color.White, shape = RoundedCornerShape(4.dp))
+                .clip(RoundedCornerShape(4.dp))
+                .width(158.dp)
+                .height(58.dp)
+                .clickable {
+                    ToastUtils.showToast(context, context.getString(R.string.msg_not_unlocked))
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.text_make_button),
+                    style = FontRegularItalic.copy(color = Color.White, fontSize = 20.sp),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(vertical = 10.dp, horizontal = 20.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Box(modifier = Modifier
+                .border(1.dp, color = Color.White, shape = RoundedCornerShape(4.dp))
+                .clip(RoundedCornerShape(4.dp))
+                .width(158.dp)
+                .height(58.dp)
+                .clickable {
+                    onButtonClick(onExit)
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.text_exit_button),
+                    style = FontRegularItalic.copy(color = Color.White, fontSize = 20.sp),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(vertical = 10.dp, horizontal = 20.dp)
+                )
+            }
         }
     }
 }

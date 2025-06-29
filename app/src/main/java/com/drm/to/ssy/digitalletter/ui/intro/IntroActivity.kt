@@ -11,6 +11,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.drm.to.ssy.digitalletter.ui.create.MemoryOnCreateActivity
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+import kotlin.system.exitProcess
 
 class IntroActivity : ComponentActivity() {
     companion object {
@@ -33,9 +34,14 @@ class IntroActivity : ComponentActivity() {
         })
         setContent {
             DigitalLetterTheme {
-                IntroScreen(onContinue = {
-                    MemoryOnCreateActivity.startMe(this)
-                })
+                IntroScreen(
+                    onContinue = {
+                        MemoryOnCreateActivity.startMe(this)
+                    },
+                    onExit = {
+                        exitProcess(0)
+                    }
+                )
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.drm.to.ssy.digitalletter
+package com.drm.to.ssy.digitalletter.utils
 
 import android.os.Build
 

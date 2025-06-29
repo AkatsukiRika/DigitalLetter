@@ -21,8 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.drm.to.ssy.digitalletter.R
-import com.drm.to.ssy.digitalletter.getAndroidVersion
-import com.drm.to.ssy.digitalletter.getScreenResolution
+import com.drm.to.ssy.digitalletter.utils.getAndroidVersion
+import com.drm.to.ssy.digitalletter.utils.getScreenResolution
 import com.drm.to.ssy.digitalletter.ui.theme.ColorBrand
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
 import kotlinx.coroutines.delay

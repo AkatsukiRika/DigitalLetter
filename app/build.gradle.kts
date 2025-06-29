@@ -52,3 +52,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+tasks.register("assembleAndInstallDebug") {
+    group = "custom"
+    description = "Builds debug APK and installs it to a connected device"
+
+    dependsOn("assembleDebug")
+
+    doLast {
+        val apkPath = "${buildDir}/outputs/apk/debug/app-debug.apk"
+        println("Installing APK from: $apkPath")
+        exec {
+            commandLine("${android.sdkDirectory}/platform-tools/adb", "install", "-r", apkPath)
+        }
+    }
+}
