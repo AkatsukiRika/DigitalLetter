@@ -10,7 +10,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.drm.to.ssy.digitalletter.R
-import com.drm.to.ssy.digitalletter.engine.getCmdList098
+import com.drm.to.ssy.digitalletter.engine.getCmdList099
 import com.drm.to.ssy.digitalletter.model.MemoryConfig
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
 import com.drm.to.ssy.digitalletter.widget.MemoryMonologueScreen
@@ -49,7 +49,7 @@ class MemoryOnResumeActivity : ComponentActivity() {
             DigitalLetterTheme {
                 MemoryMonologueScreen(
                     config = MemoryConfig(
-                        cmdList = getCmdList098(this),
+                        cmdList = getCmdList099(this),
                         themeColor = androidx.compose.ui.graphics.Color.White,
                         introDrawableRes = R.drawable.img_on_resume_intro,
                     ),

@@ -8,11 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import com.drm.to.ssy.digitalletter.model.MemoryConfig
 
 @Composable
-fun IntroMaskLayout(alpha: Float, config: MemoryConfig) {
+fun IntroMaskLayout(alpha: Float, config: MemoryConfig, scale: Float = 1f) {
     Box(modifier = Modifier
         .fillMaxSize()
         .alpha(alpha)
@@ -21,7 +22,9 @@ fun IntroMaskLayout(alpha: Float, config: MemoryConfig) {
         Image(
             painter = painterResource(config.introDrawableRes),
             contentDescription = null,
-            modifier = Modifier.align(Alignment.Center)
+            modifier = Modifier
+                .align(Alignment.Center)
+                .scale(scale)
         )
     }
 }

@@ -69,7 +69,7 @@ tasks.register("assembleAndInstallDebug") {
 
         // 包名和启动 Activity
         val packageName = "com.drm.to.ssy.digitalletter"
-        val activityName = "com.drm.to.ssy.digitalletter.ui.start.MemoryOnStartActivity"
+        val activityName = "com.drm.to.ssy.digitalletter.ui.resume.MemoryOnResumeActivity"
         val componentName = "$packageName/$activityName"
 
         // 检查 adb 是否存在
