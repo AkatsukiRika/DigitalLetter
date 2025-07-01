@@ -43,6 +43,10 @@
         <activity android:name=".ui.resume.MemoryOnResumeActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
+
+        <activity android:name=".ui.mr.MergeRequestActivity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

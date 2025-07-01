@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import com.drm.to.ssy.digitalletter.R
 import com.drm.to.ssy.digitalletter.engine.getCmdList099
 import com.drm.to.ssy.digitalletter.model.MemoryConfig
+import com.drm.to.ssy.digitalletter.ui.mr.MergeRequestActivity
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
 import com.drm.to.ssy.digitalletter.widget.MemoryMonologueScreen
 
@@ -53,7 +54,9 @@ class MemoryOnResumeActivity : ComponentActivity() {
                         themeColor = androidx.compose.ui.graphics.Color.White,
                         introDrawableRes = R.drawable.img_on_resume_intro,
                     ),
-                    onActivityJump = {}
+                    onActivityJump = {
+                        MergeRequestActivity.startMe(this)
+                    }
                 )
             }
         }
