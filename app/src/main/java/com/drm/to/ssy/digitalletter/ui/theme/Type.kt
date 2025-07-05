@@ -52,6 +52,11 @@ val FontBold = TextStyle(
     fontWeight = FontWeight.Bold,
 )
 
+val FontMonospace = TextStyle(
+    fontFamily = FontFamily.Monospace,
+    fontWeight = FontWeight.Normal
+)
+
 val SerifBold = TextStyle(
     fontFamily = FontFamily(Font(R.font.noto_serif_sc_bold))
 )

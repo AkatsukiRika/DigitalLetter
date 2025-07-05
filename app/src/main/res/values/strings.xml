@@ -209,8 +209,25 @@
     <string name="ver_099_26">向我的「感情分支」不断提交支持和信念</string>
     <string name="ver_099_27">现在，他们已经通过了我的「合并请求 (Merge Request)」审批</string>
     <string name="ver_099_28">名为「小润」的开发分支 feature/dev_run</string>
-    <string name="ver_099_29">将会合并到名为「小妍」的主分支 master/ssy</string>
+    <string name="ver_099_29">正在准备合并到名为「小妍」的主分支 master/ssy</string>
     <string name="ver_099_30">小妍是最后一位项目组长 Reviewer</string>
     <string name="ver_099_31">请严格遵从自己的心意</string>
     <string name="ver_099_32">按下「Approve」或「Revert」按钮吧</string>
+
+    <string name="mr_title">Feat: 来自小润的告白请求</string>
+    <string name="mr_assignee_1">鉴轩</string>
+    <string name="mr_assignee_id_1">jianxuan.bytedance</string>
+    <string name="mr_comment_1">Looks Good To Me ❤️</string>
+    <string name="mr_assignee_2">洲酱</string>
+    <string name="mr_assignee_id_2">jiangzhou.gov</string>
+    <string name="mr_comment_2">我都快要感动了，再不告白我就帮你说了</string>
+    <string name="mr_assignee_3">卷々炫</string>
+    <string name="mr_assignee_id_3">zhixuan.bytedance</string>
+    <string name="mr_comment_3">兄弟，勇气值已经达标，别等了，merge 吧！</string>
+    <string name="mr_assignee_4">千早卷明</string>
+    <string name="mr_assignee_id_4">siming.poizon</string>
+    <string name="mr_comment_4">加油，回收需求收益的时候多写几个百分点</string>
+    <string name="mr_assignee_id_final">waishifu2333</string>
+    <string name="loading_msg_approved">これからもよろしくね！</string>
+    <string name="loading_msg_reverted">今までありがとう。</string>
 </resources>
