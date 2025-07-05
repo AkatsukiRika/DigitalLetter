@@ -39,6 +39,7 @@ import com.drm.to.ssy.digitalletter.engine.Engine
 import com.drm.to.ssy.digitalletter.model.MemoryConfig
 import com.drm.to.ssy.digitalletter.ui.theme.FontBold
 import com.drm.to.ssy.digitalletter.ui.theme.SerifBold
+import com.drm.to.ssy.digitalletter.utils.performAudioFadeOut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -112,23 +113,7 @@ private fun MainLayout(
                 )
                 isInTextAnimation = false
                 if (!engine.goNext()) {
-                    val fadeDurationMs = 1000L
-                    val initialVolume = audioPlayer.volume
-                    val steps = 20
-                    val volumeStep = initialVolume / steps
-                    val delayTime = fadeDurationMs / steps
-
-                    var currentVolume = initialVolume
-                    for (i in 0 until steps) {
-                        currentVolume -= volumeStep
-                        audioPlayer.volume = currentVolume.coerceAtLeast(0f)
-                        delay(delayTime)
-                    }
-
-                    audioPlayer.volume = 0f
-
-                    withContext(Dispatchers.Main) {
-                        audioPlayer.release()
+                    performAudioFadeOut(audioPlayer) {
                         onActivityJump()
                     }
                 }

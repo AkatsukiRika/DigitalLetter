@@ -65,6 +65,7 @@ import com.drm.to.ssy.digitalletter.ui.theme.ColorLightGray
 import com.drm.to.ssy.digitalletter.ui.theme.FontBold
 import com.drm.to.ssy.digitalletter.ui.theme.FontMonospace
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
+import com.drm.to.ssy.digitalletter.utils.performAudioFadeOut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -84,6 +85,7 @@ fun MergeRequestScreen(onActivityJump: () -> Unit) {
     var comment by remember { mutableStateOf("") }
     var approveComment by remember { mutableStateOf("") }
     var approveStatus by remember { mutableIntStateOf(APPROVE_STATUS_PENDING) }
+    var showDialog by remember { mutableStateOf(false) }
 
     LazyColumn(modifier = Modifier
         .fillMaxSize()
@@ -182,7 +184,7 @@ fun MergeRequestScreen(onActivityJump: () -> Unit) {
         }
     }
 
-    if (approveStatus != APPROVE_STATUS_PENDING) {
+    if (showDialog) {
         Dialog(
             onDismissRequest = {}
         ) {
@@ -195,7 +197,7 @@ fun MergeRequestScreen(onActivityJump: () -> Unit) {
                     APPROVE_STATUS_APPROVED -> {
                         Text(
                             text = stringResource(R.string.loading_msg_approved),
-                            style = FontRegular.copy(color = ColorBlue, fontSize = 14.sp),
+                            style = FontBold.copy(color = ColorBlue, fontSize = 14.sp),
                             modifier = Modifier.padding(top = 16.dp)
                         )
                     }
@@ -203,7 +205,7 @@ fun MergeRequestScreen(onActivityJump: () -> Unit) {
                     APPROVE_STATUS_REVERTED -> {
                         Text(
                             text = stringResource(R.string.loading_msg_reverted),
-                            style = FontRegular.copy(color = ColorBlue, fontSize = 14.sp),
+                            style = FontBold.copy(color = ColorBlue, fontSize = 14.sp),
                             modifier = Modifier.padding(top = 8.dp)
                         )
                     }
@@ -224,7 +226,9 @@ fun MergeRequestScreen(onActivityJump: () -> Unit) {
             approveComment = comment
             comment = ""
             delay(5000)
-            withContext(Dispatchers.Main) {
+            showDialog = true
+            delay(5000)
+            performAudioFadeOut(audioPlayer) {
                 onActivityJump()
             }
         }
@@ -536,7 +540,11 @@ private fun ReviewersArea(modifier: Modifier = Modifier, approveStatus: Int) {
                 }
 
                 withStyle(SpanStyle(color = ColorGreen, fontWeight = FontWeight.Bold, fontSize = 12.sp)) {
-                    append("\nReviewers Approved")
+                    if (approveStatus == APPROVE_STATUS_APPROVED) {
+                        append("\nAll cleared! CI running...")
+                    } else {
+                        append("\nReviewers approved")
+                    }
                 }
             }
 
