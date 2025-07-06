@@ -57,6 +57,10 @@ val FontMonospace = TextStyle(
     fontWeight = FontWeight.Normal
 )
 
+val SerifRegular = TextStyle(
+    fontFamily = FontFamily(Font(R.font.noto_serif_sc_regular))
+)
+
 val SerifBold = TextStyle(
     fontFamily = FontFamily(Font(R.font.noto_serif_sc_bold))
 )

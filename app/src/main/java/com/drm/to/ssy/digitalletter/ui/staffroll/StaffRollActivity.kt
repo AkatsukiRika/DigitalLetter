@@ -32,6 +32,7 @@ class StaffRollActivity : ComponentActivity() {
         })
         setContent {
             DigitalLetterTheme {
+                StaffRollScreen()
             }
         }
     }
