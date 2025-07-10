@@ -26,6 +26,7 @@ class BootActivity : ComponentActivity() {
             DigitalLetterTheme {
                 BootScreen(onFinish = {
                     IntroActivity.startMe(this)
+                    finish()
                 })
             }
         }

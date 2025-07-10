@@ -39,7 +39,7 @@ class IntroActivity : ComponentActivity() {
                         MemoryOnCreateActivity.startMe(this)
                     },
                     onExit = {
-                        exitProcess(0)
+                        finish()
                     }
                 )
             }
