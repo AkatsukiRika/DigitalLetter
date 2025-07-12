@@ -11,12 +11,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.drm.to.ssy.digitalletter.ui.create.MemoryOnCreateActivity
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
-import kotlin.system.exitProcess
 
 class IntroActivity : ComponentActivity() {
     companion object {
         fun startMe(context: Context) {
             val intent = Intent(context, IntroActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
             context.startActivity(intent)
         }
     }

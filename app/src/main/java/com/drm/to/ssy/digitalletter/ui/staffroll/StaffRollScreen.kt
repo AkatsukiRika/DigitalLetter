@@ -1,126 +1,78 @@
 package com.drm.to.ssy.digitalletter.ui.staffroll
 
+import android.app.Activity
+import androidx.annotation.OptIn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import com.drm.to.ssy.digitalletter.R
-import com.drm.to.ssy.digitalletter.ui.theme.SerifBold
-import com.drm.to.ssy.digitalletter.ui.theme.SerifRegular
+import com.drm.to.ssy.digitalletter.ui.intro.IntroActivity
+import kotlinx.coroutines.delay
 
+@OptIn(UnstableApi::class)
 @Composable
 fun StaffRollScreen() {
-    val messages = remember {
-        listOf(
-            R.string.staff_roll_title,
-            R.string.staff_roll_sub_title_approved,
-            R.string.empty_line,
-            R.string.staff_roll_software_design_title,
-            R.string.staff_roll_software_design_00,
-            R.string.staff_roll_software_design_01,
-            R.string.staff_roll_software_design_02,
-            R.string.staff_roll_software_design_03,
-            R.string.staff_roll_software_design_04,
-            R.string.staff_roll_software_design_05,
-            R.string.staff_roll_software_design_06,
-            R.string.staff_roll_software_design_07,
-            R.string.empty_line,
-            R.string.staff_roll_visual_material_title,
-            R.string.staff_roll_visual_material_00,
-            R.string.staff_roll_visual_material_01,
-            R.string.staff_roll_visual_material_02,
-            R.string.staff_roll_visual_material_03,
-            R.string.staff_roll_visual_material_04,
-            R.string.empty_line,
-            R.string.staff_roll_audio_material_title,
-            R.string.staff_roll_audio_material,
-            R.string.empty_line,
-            R.string.staff_roll_tools_title,
-            R.string.staff_roll_tools,
-            R.string.empty_line,
-            R.string.staff_roll_special_thanks_title,
-            R.string.staff_roll_special_thanks,
-            R.string.empty_line,
-            R.string.staff_roll_last_message_approved
-        )
-    }
-    val boldMessages = remember {
-        listOf(
-            R.string.staff_roll_title,
-            R.string.staff_roll_sub_title_approved,
-            R.string.staff_roll_software_design_title,
-            R.string.staff_roll_visual_material_title,
-            R.string.staff_roll_audio_material_title,
-            R.string.staff_roll_tools_title,
-            R.string.staff_roll_special_thanks_title,
-            R.string.staff_roll_last_message_approved
-        )
-    }
-    var height by remember { mutableIntStateOf(0) }
-    val density = LocalDensity.current
-    val pxToDp = with(density) {
-        { px: Int ->
-            px.toDp()
+    val context = LocalContext.current
+    val videoPlayer = remember {
+        val videoUri = "android.resource://${context.packageName}/${R.raw.approved_ed}".toUri()
+        ExoPlayer.Builder(context).build().apply {
+            val mediaItem = MediaItem.fromUri(videoUri)
+            setMediaItem(mediaItem)
+            prepare()
+            repeatMode = ExoPlayer.REPEAT_MODE_OFF
+            playWhenReady = false
         }
     }
-    val lazyListState = rememberLazyListState()
+
+    DisposableEffect(videoPlayer) {
+        val listener = object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_ENDED) {
+                    IntroActivity.startMe(context)
+                    (context as? Activity)?.finish()
+                }
+            }
+        }
+        videoPlayer.addListener(listener)
+        onDispose {
+            videoPlayer.removeListener(listener)
+            videoPlayer.release()
+        }
+    }
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .onSizeChanged {
-            height = it.height
-        }
+        .background(Color.Black)
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxWidth(fraction = 0.4f)
-                .alpha(if (height > 0) 1f else 0f),
-            state = lazyListState,
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(pxToDp(height)))
-            }
-
-            items(messages) {
-                Text(
-                    text = stringResource(it).trim(),
-                    style = if (it in boldMessages) {
-                        SerifBold.copy(color = Color.White, fontSize = 16.sp)
-                    } else {
-                        SerifRegular.copy(color = Color.White, fontSize = 16.sp)
-                    }
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(pxToDp(height)))
-            }
-        }
+        AndroidView(
+            factory = { ctx ->
+                PlayerView(ctx).apply {
+                    player = videoPlayer
+                    useController = false
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
     }
 
-    LaunchedEffect(height) {
-        if (height > 0) {
-            lazyListState.scrollToItem(0)
-        }
+    LaunchedEffect(Unit) {
+        delay(100)
+        videoPlayer.playWhenReady = true
     }
 }
