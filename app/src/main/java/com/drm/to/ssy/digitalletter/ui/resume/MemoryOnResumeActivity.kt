@@ -25,7 +25,7 @@ class MemoryOnResumeActivity : ComponentActivity() {
     }
 
     /**
-     * 2025年7月12日
+     * 2025年7月26日
      * 这是我们的第2次约会
      * 就像Activity在onResume()正式走入可交互阶段一样
      * 你在我心中onResume()

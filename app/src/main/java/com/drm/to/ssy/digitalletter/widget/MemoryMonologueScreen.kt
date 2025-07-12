@@ -54,14 +54,14 @@ fun MemoryMonologueScreen(config: MemoryConfig, onActivityJump: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         MainLayout(maskAlpha, config, onActivityJump)
 
-        IntroMaskLayout(maskAlpha, config, scale = 2f)
+        IntroMaskLayout(maskAlpha, config)
     }
 
     LaunchedEffect(Unit) {
         animate(
             initialValue = 1f,
             targetValue = 0f,
-            animationSpec = tween(durationMillis = 2000, easing = LinearEasing, delayMillis = 1000),
+            animationSpec = tween(durationMillis = 3000, easing = LinearEasing, delayMillis = 5000),
         ) { value, _ ->
             maskAlpha = value
         }
