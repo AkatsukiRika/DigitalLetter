@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.drm.to.ssy.digitalletter.R
@@ -165,19 +164,13 @@ fun BootScreen(onFinish: () -> Unit) {
         .fillMaxSize()
         .statusBarsPadding()
     ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_heart),
-            contentDescription = null,
-            tint = ColorBrand.copy(alpha = 0.25f),
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize(fraction = 0.8f)
-        )
-
         Text(
             text = currentLog,
             style = FontRegular.copy(color = ColorBrand, fontSize = 16.sp),
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(vertical = 16.dp),
+            textAlign = TextAlign.Center
         )
     }
 }
