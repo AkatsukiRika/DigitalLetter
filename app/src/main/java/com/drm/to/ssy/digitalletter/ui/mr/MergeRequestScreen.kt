@@ -65,14 +65,13 @@ import com.drm.to.ssy.digitalletter.ui.theme.ColorLightGray
 import com.drm.to.ssy.digitalletter.ui.theme.FontBold
 import com.drm.to.ssy.digitalletter.ui.theme.FontMonospace
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegular
+import com.drm.to.ssy.digitalletter.utils.SharedPrefUtils
 import com.drm.to.ssy.digitalletter.utils.performAudioFadeOut
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
-private const val APPROVE_STATUS_PENDING = 0
-private const val APPROVE_STATUS_APPROVED = 1
-private const val APPROVE_STATUS_REVERTED = 2
+const val APPROVE_STATUS_PENDING = 0
+const val APPROVE_STATUS_APPROVED = 1
+const val APPROVE_STATUS_REVERTED = 2
 
 @Composable
 fun MergeRequestScreen(onActivityJump: () -> Unit) {
@@ -223,6 +222,7 @@ fun MergeRequestScreen(onActivityJump: () -> Unit) {
 
     LaunchedEffect(approveStatus) {
         if (approveStatus != APPROVE_STATUS_PENDING) {
+            SharedPrefUtils.saveInt(context, SharedPrefUtils.KEY_APPROVE_STATUS, approveStatus)
             approveComment = comment
             comment = ""
             delay(5000)
