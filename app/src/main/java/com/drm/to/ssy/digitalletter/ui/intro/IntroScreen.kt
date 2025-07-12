@@ -37,6 +37,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.drm.to.ssy.digitalletter.ui.appendix.AppendixActivity
+import com.drm.to.ssy.digitalletter.ui.making.MakingActivity
 import com.drm.to.ssy.digitalletter.ui.mr.APPROVE_STATUS_PENDING
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegularItalic
 import com.drm.to.ssy.digitalletter.utils.SharedPrefUtils
@@ -194,7 +195,13 @@ fun IntroScreen(
                 .width(158.dp)
                 .height(58.dp)
                 .clickable {
-                    ToastUtils.showToast(context, context.getString(R.string.msg_not_unlocked))
+                    if (!isUnlocked()) {
+                        ToastUtils.showToast(context, context.getString(R.string.msg_not_unlocked))
+                    } else {
+                        onButtonClick {
+                            MakingActivity.startMe(context)
+                        }
+                    }
                 }
             ) {
                 Text(

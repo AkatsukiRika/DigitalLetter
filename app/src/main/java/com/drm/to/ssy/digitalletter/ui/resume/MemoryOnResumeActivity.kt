@@ -14,6 +14,7 @@ import com.drm.to.ssy.digitalletter.engine.getCmdList099
 import com.drm.to.ssy.digitalletter.model.MemoryConfig
 import com.drm.to.ssy.digitalletter.ui.mr.MergeRequestActivity
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+import com.drm.to.ssy.digitalletter.utils.hideSystemUI
 import com.drm.to.ssy.digitalletter.widget.MemoryMonologueScreen
 
 class MemoryOnResumeActivity : ComponentActivity() {
@@ -41,6 +42,7 @@ class MemoryOnResumeActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
+        hideSystemUI(window)
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 屏蔽返回键

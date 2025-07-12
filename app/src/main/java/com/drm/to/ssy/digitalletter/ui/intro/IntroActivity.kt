@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.drm.to.ssy.digitalletter.ui.create.MemoryOnCreateActivity
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+import com.drm.to.ssy.digitalletter.utils.hideSystemUI
 
 class IntroActivity : ComponentActivity() {
     companion object {
@@ -32,6 +33,7 @@ class IntroActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
+        hideSystemUI(window)
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 屏蔽返回键

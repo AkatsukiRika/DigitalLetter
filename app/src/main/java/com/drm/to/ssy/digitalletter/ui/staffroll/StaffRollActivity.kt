@@ -10,6 +10,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+import com.drm.to.ssy.digitalletter.utils.hideSystemUI
 
 class StaffRollActivity : ComponentActivity() {
     companion object {
@@ -25,6 +26,7 @@ class StaffRollActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
+        hideSystemUI(window)
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 屏蔽返回键

@@ -24,6 +24,7 @@ import com.drm.to.ssy.digitalletter.model.MemoryConfig
 import com.drm.to.ssy.digitalletter.ui.resume.MemoryOnResumeActivity
 import com.drm.to.ssy.digitalletter.ui.theme.ColorOnStartTheme
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+import com.drm.to.ssy.digitalletter.utils.hideSystemUI
 import com.drm.to.ssy.digitalletter.widget.MemoryDialogScreen
 
 class MemoryOnStartActivity : ComponentActivity() {
@@ -49,6 +50,7 @@ class MemoryOnStartActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
+        hideSystemUI(window)
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 屏蔽返回键

@@ -9,6 +9,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
+import com.drm.to.ssy.digitalletter.utils.hideSystemUI
 
 class AppendixActivity : ComponentActivity() {
     companion object {
@@ -24,6 +25,7 @@ class AppendixActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(scrim = Color.TRANSPARENT)
         )
+        hideSystemUI(window)
         setContent {
             DigitalLetterTheme {
                 AppendixScreen()
