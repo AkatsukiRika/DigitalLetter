@@ -24,7 +24,7 @@ import androidx.media3.ui.PlayerView
 import com.drm.to.ssy.digitalletter.R
 import com.drm.to.ssy.digitalletter.ui.intro.IntroActivity
 import com.drm.to.ssy.digitalletter.ui.mr.APPROVE_STATUS_APPROVED
-import com.drm.to.ssy.digitalletter.ui.mr.APPROVE_STATUS_REVERTED
+import com.drm.to.ssy.digitalletter.ui.mr.APPROVE_STATUS_PENDING
 import com.drm.to.ssy.digitalletter.utils.SharedPrefUtils
 import kotlinx.coroutines.delay
 
@@ -74,7 +74,7 @@ fun StaffRollScreen() {
 
     LaunchedEffect(Unit) {
         delay(100)
-        val approveStatus = SharedPrefUtils.getInt(context, SharedPrefUtils.KEY_APPROVE_STATUS, APPROVE_STATUS_REVERTED)
+        val approveStatus = SharedPrefUtils.getInt(context, SharedPrefUtils.KEY_APPROVE_STATUS, APPROVE_STATUS_PENDING)
         val videoUri = if (approveStatus == APPROVE_STATUS_APPROVED) {
             "android.resource://${context.packageName}/${R.raw.approved_ed}".toUri()
         } else {

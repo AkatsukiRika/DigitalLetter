@@ -9,6 +9,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.drm.to.ssy.digitalletter.ui.create.MemoryOnCreateActivity
 import com.drm.to.ssy.digitalletter.ui.theme.DigitalLetterTheme
 
@@ -20,6 +23,8 @@ class IntroActivity : ComponentActivity() {
             context.startActivity(intent)
         }
     }
+
+    private var shouldRestartAudio by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +40,7 @@ class IntroActivity : ComponentActivity() {
         setContent {
             DigitalLetterTheme {
                 IntroScreen(
+                    shouldRestartAudio = shouldRestartAudio,
                     onContinue = {
                         MemoryOnCreateActivity.startMe(this)
                     },
@@ -44,5 +50,15 @@ class IntroActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shouldRestartAudio = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        shouldRestartAudio = false
     }
 }

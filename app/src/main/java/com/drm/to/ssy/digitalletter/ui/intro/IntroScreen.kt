@@ -36,7 +36,10 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import com.drm.to.ssy.digitalletter.ui.appendix.AppendixActivity
+import com.drm.to.ssy.digitalletter.ui.mr.APPROVE_STATUS_PENDING
 import com.drm.to.ssy.digitalletter.ui.theme.FontRegularItalic
+import com.drm.to.ssy.digitalletter.utils.SharedPrefUtils
 import com.drm.to.ssy.digitalletter.utils.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,6 +50,7 @@ import kotlinx.coroutines.withContext
 @OptIn(UnstableApi::class)
 @Composable
 fun IntroScreen(
+    shouldRestartAudio: Boolean,
     onContinue: () -> Unit,
     onExit: () -> Unit
 ) {
@@ -87,6 +91,20 @@ fun IntroScreen(
         videoPlayer.playWhenReady = true
     }
 
+    LaunchedEffect(shouldRestartAudio) {
+        if (shouldRestartAudio) {
+            fadeOutJob?.cancel()
+            audioPlayer.volume = 1f
+            audioPlayer.playWhenReady = true
+            videoPlayer.playWhenReady = true
+        }
+    }
+
+    fun isUnlocked(): Boolean {
+        val approveStatus = SharedPrefUtils.getInt(context, SharedPrefUtils.KEY_APPROVE_STATUS, APPROVE_STATUS_PENDING)
+        return approveStatus != APPROVE_STATUS_PENDING
+    }
+
     fun onButtonClick(action: () -> Unit) {
         fadeOutJob?.cancel()
         fadeOutJob = scope.launch {
@@ -106,8 +124,6 @@ fun IntroScreen(
             audioPlayer.volume = 0f
 
             withContext(Dispatchers.Main) {
-                videoPlayer.release()
-                audioPlayer.release()
                 action()
             }
         }
@@ -152,7 +168,13 @@ fun IntroScreen(
                 .width(158.dp)
                 .height(58.dp)
                 .clickable {
-                    ToastUtils.showToast(context, context.getString(R.string.msg_not_unlocked))
+                    if (!isUnlocked()) {
+                        ToastUtils.showToast(context, context.getString(R.string.msg_not_unlocked))
+                    } else {
+                        onButtonClick {
+                            AppendixActivity.startMe(context)
+                        }
+                    }
                 }
             ) {
                 Text(

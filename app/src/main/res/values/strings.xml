@@ -23,6 +23,14 @@
 
     <string name="msg_not_unlocked">该内容将在「开启回忆」流程进度达到 100% 后解锁</string>
 
+    <string name="tip_select_content">请选择内容</string>
+    <string name="appendix_info_name_0">小润的舞厅翻唱 in Big Echo池袋店</string>
+    <string name="appendix_info_desc_0">我试着唱了你最喜欢的歌。\n日期：2025/06/21\n录制：黄志诚（17电商水圈总统大诚哥）</string>
+    <string name="appendix_info_name_1">Approved分支 Ending Movie</string>
+    <string name="appendix_info_desc_1">把充满回忆的照片都剪进去了！\nBGM的歌词我觉得特别适合描述我们的相遇</string>
+    <string name="appendix_info_name_2">Reverted分支 Ending Movie</string>
+    <string name="appendix_info_desc_2">楽しかったね…夏\n度過了愉快的…夏天呢</string>
+
     <string name="character_0_state_0">主人</string>
     <string name="character_0_state_1">卷卷</string>
     <string name="character_0_state_2">小润</string>
