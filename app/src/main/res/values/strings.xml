@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DigitalLetter</string>
+    <string name="app_name">Digital Letter</string>
     <string name="boot_log_0">--------------- 进入系统自检模块 ---------------</string>
     <string name="boot_log_1">应用包名：com.drm.to.ssy.digitalletter</string>
     <string name="boot_log_2">版本名称：3.0.3</string>
